@@ -122,8 +122,14 @@
 </head>
 <body>
 
+    <audio id="backgroundMusic" autoplay loop>
+        <source src="amorcine.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>  
+
 <header>
     <h1>¡Hola, Sofía! 🍂✨</h1>
+    <button class="button" id="playButton" onclick="playMusic()">Reproducir Música</button>
 </header>
 
 <div class="section" id="section1">
@@ -184,6 +190,12 @@
 <script>
     // Mostrar la primera sección
     document.getElementById("section1").style.display = "block";
+
+    function playMusic() {
+        const audio = document.getElementById("backgroundMusic");
+        audio.play();
+        document.getElementById("playButton").style.display = "none"; // Oculta el botón después de hacer clic
+    }
 
     function showNext(buttonId, sectionId) {
         // Ocultar el botón correspondiente
