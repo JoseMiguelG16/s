@@ -25,6 +25,7 @@
             font-size: 2.5em;
         }
         .section {
+            display: none; /* Ocultar todas las secciones inicialmente */
             margin: 20px 0;
             padding: 20px;
             background-color: #ffffff;
@@ -39,7 +40,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            position: absolute;
+            position: relative;
         }
         .button:hover {
             background-color: #c51162;
@@ -79,6 +80,40 @@
             font-size: 1.5em; /* Aumenta el tamaño */
             font-weight: bold; /* Negrita */
         }
+        /* Estilos para el modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            border-radius: 10px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -87,16 +122,18 @@
     <h1>¡Hola, Sofía! 🍂✨</h1>
 </header>
 
-<div class="section">
+<div class="section" id="section1">
     <p>¡Noviembre ya casi está aquí! Las hojas caen suavemente, el aire se vuelve fresco, y me pregunto...</p>
+    <button id="btn1" class="button" onclick="showNext('btn1', 'section2')">Siguiente</button>
 </div>
 
-<div class="section image-container">
+<div class="section image-container" id="section2">
     <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.mexicodesconocido.com.mx%2Fsites%2Fdefault%2Ffiles%2Ffichas-destino%2Fimagen_novios_estrellas_v2.jpg&f=1&nofb=1&ipt=d4265024e774c90fcb5555cab41ad51cd8cb71ec3c8ee445295f42632d8f8939&ipo=images" alt="Cita romántica bajo las estrellas">
     <p class="highlighted-question">¿Te gustaría tener una cita conmigo este noviembre?</p>
+    <button id="btn2" class="button" onclick="showNext('btn2', 'section3')">Siguiente</button>
 </div>
 
-<div class="section">
+<div class="section" id="section3">
     <p>Imagina lo que podríamos hacer juntos:</p>
     <div class="option">
         <img src="https://tipsparatuviaje.com/wp-content/uploads/2019/04/bosque-de-san-juan-de-aragon.jpg" alt="Paseo por el parque">
@@ -110,9 +147,17 @@
         <img src="https://www.slashfilm.com/wp/wp-content/images/lalaland-ryangosling-emmastone-movietheater.jpg" alt="Cine">
         <p>Cine: Disfrutar de una película, cualquiera porque cada película contigo es especial. 🎬</p>
     </div>
+    <div class="option">
+        <img src="https://offloadmedia.feverup.com/cdmxsecreta.com/wp-content/uploads/2021/10/07044011/cementerios-cdmx.jpg" alt="Cementerio">
+        <p>Cementerio ... </p>
+    </div>
+    <div class="option">
+        <p>Y mucho más ... </p>
+    </div>
+    <button id="btn3" class="button" onclick="showNext('btn3', 'section4')">Siguiente</button>
 </div>
 
-<div class="section">
+<div class="section" id="section4">
     <h3>¡Responde jugando y hagamos esto inolvidable!</h3>
     <div id="game">
         <button class="button" id="yesButton" onclick="confirmYes()">¡Sí!</button>
@@ -120,7 +165,26 @@
     </div>
 </div>
 
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>¡Yay! 🎉</h2>
+        <p>Estoy emocionado por nuestra cita. Cada hoja caída es un nuevo recuerdo por crear. 🌟</p>
+        <iframe src="https://giphy.com/embed/TdfyKrN7HGTIY" width="480" height="274" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/happy-spongebob-squarepants-patrick-TdfyKrN7HGTIY"></a></p>
+    </div>
+</div>
+
 <script>
+    // Mostrar la primera sección
+    document.getElementById("section1").style.display = "block";
+
+    function showNext(buttonId, sectionId) {
+        // Ocultar el botón correspondiente
+        document.getElementById(buttonId).style.display = "none";
+        // Mostrar la siguiente sección
+        document.getElementById(sectionId).style.display = "block";
+    }
+
     const yesButton = document.getElementById("yesButton");
     const noButton = document.getElementById("noButton");
     const gameArea = document.getElementById("game");
@@ -131,12 +195,18 @@
     }
 
     function confirmYes() {
-        alert("¡Yay! Estoy emocionado por nuestra cita. Cada hoja caída es un nuevo recuerdo por crear. 🌟");
+        // Mostrar el modal
+        document.getElementById("myModal").style.display = "block";
         yesButton.style.display = "none"; // Ocultar el botón de "Sí"
         noButton.style.display = "none"; // Ocultar el botón de "No"
+    }
+
+    function closeModal() {
+        // Redirigir después de cerrar el modal
         setTimeout(() => {
             window.location.href = "https://www.youtube.com/watch?v=X4YK-DEkvcw";
         }, 2000); // Espera 2 segundos antes de redirigir
+        document.getElementById("myModal").style.display = "none"; // Ocultar el modal
     }
 
     // Inicializar la posición del botón de "No"
